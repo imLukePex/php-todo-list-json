@@ -4,24 +4,9 @@
     header('Access-Control-Allow-Headers: X-Requested-With');
     header("Access-Control-Allow-Origin: http://localhost:5173");
 
-    $tasks = [
-        [
-            'text' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae, delectus explicabo quam velit odit ut, voluptatem tempora veritatis recusandae rerum magnam iure illo vero possimus corrupti ipsa eligendi maiores eaque?',
-            'completed' => false,
-        ],
-        [
-            'text' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Molestiae, delectus explicabo quam velit odit ut',
-            'completed' => true,
-        ],
-        [
-            'text' => 'Lorem ipsum, dolor sit amet consectetur adipisicing elit.?',
-            'completed' => false,
-        ],
-        [
-            'text' => 'Ciao mondo',
-            'completed' => true,
-        ],
-    ];
+    // VERSIONE 2 DEFINITIVA
+    $jsonTasks = file_get_contents(__DIR__ . "/tasks.json");
+    $tasks = json_decode($jsonTasks, true);
 
     $newTaskText = $_POST['text'];
     $newTask = [
@@ -32,4 +17,38 @@
     $tasks[] = $newTask;
 
     $jsonTasks = json_encode($tasks);
+    file_put_contents(__DIR__ . "/tasks.json", $jsonTasks);
     echo $jsonTasks;
+
+
+
+    // VERSIONE 1
+    // $tasks = [
+    //     [
+    //         'text' => 'Fare la spesa',
+    //         'completed' => false,
+    //     ],
+    //     [
+    //         'text' => 'Fare il bucato',
+    //         'completed' => true,
+    //     ],
+    //     [
+    //         'text' => 'Fare il letto',
+    //         'completed' => false,
+    //     ],
+    //     [
+    //         'text' => 'Fare la lavastoviglie',
+    //         'completed' => true,
+    //     ],
+    // ];
+
+    // $newTaskText = $_POST['text'];
+    // $newTask = [
+    //     'text' => $newTaskText,
+    //     'completed' => false
+    // ];
+
+    // $tasks[] = $newTask;
+
+    // $jsonTasks = json_encode($tasks); 
+    // echo $jsonTasks;
