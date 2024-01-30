@@ -25,25 +25,43 @@ export default {
       axios.post("http://localhost/php-todo-list-json/back-end/createTask.php", params, config)
         .then((res) => {
           this.tasks = res.data;
+          this.newTaskText = "";
         });
     },
     toggleTask(index) {
         
         const params = {
-        index: index
-      };
+            index: index
+        };
 
         const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        };
 
       axios.post("http://localhost/php-todo-list-json/back-end/toggleTask.php", params, config)
         .then((res) => {
             this.tasks = res.data;
         })
         
+    },
+    deleteTask(index) {
+
+        const params = {
+            index: index
+        };
+
+        const config = {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        };
+
+        axios.post("http://localhost/php-todo-list-json/back-end/deleteTask.php", params, config)
+        .then((res) => {
+            this.tasks = res.data;
+        })
     }
   },
   mounted() {
@@ -64,15 +82,30 @@ export default {
   </form>
 
   <ul>
-    <li v-for="(task, index) in tasks" :key="index" @click="toggleTask(index)">
-        <del v-if="task.completed">
-            {{ task.text }}
-        </del>
-        <span v-else>
-            {{ task.text }}
-        </span>
+    <li v-for="(task, index) in tasks" :key="index">
+
+        <div @click="toggleTask(index)">
+            <del v-if="task.completed">
+                {{ task.text }}
+            </del>
+            <span v-else>
+                {{ task.text }}
+            </span>
+        </div>
+        <i @click="deleteTask(index)" class="fa-solid fa-delete-left"></i>
     </li>
   </ul>
 </template>
 
-<style scoped></style>
+<style scoped>
+li {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+
+    i {
+        font-size: 25px;
+    }
+}
+
+</style>
